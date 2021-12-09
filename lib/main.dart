@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'package:whatsapp_ui/src/routes/routes.dart';
+import 'package:whatsapp_ui/src/themes/custom_theme.dart';
 
 void main() {
   runApp(const MyApp());
@@ -13,9 +14,9 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'WhatsApp UI Clone',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-      ),
+      themeMode: ThemeMode.system,
+      theme: CustomTheme.lightTheme,
+      darkTheme: CustomTheme.darkTheme,
       initialRoute: HomePage.routeName,
       routes: getAplicationRoutes(),
       debugShowCheckedModeBanner: false,
