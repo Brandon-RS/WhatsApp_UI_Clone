@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-class Palette {
+class WhatsApp {
   static const MaterialColor mainLightColor = MaterialColor(
     0xFF008066,
     <int, Color>{
