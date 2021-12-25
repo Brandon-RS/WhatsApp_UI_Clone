@@ -85,13 +85,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                         ),
                         onPressed: () {},
                       ),
-                      IconButton(
-                        icon: Icon(
-                          Icons.more_vert,
-                          color: Theme.of(context).iconTheme.color,
-                        ),
-                        onPressed: () {},
-                      ),
+                      const OptionsMenu(),
                     ],
                     pinned: true,
                     floating: true,
@@ -125,36 +119,97 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
           ),
         ),
       ),
-      floatingActionButton: Stack(
-        children: [
-          Positioned(
-            bottom: 0,
-            right: 0,
-            child: Column(
-              children: [
-                CircleAvatar(
-                  child: _tabController.index == 2
-                      ? Icon(
-                          Icons.edit,
-                          color: brightness == Brightness.dark ? Colors.white70 : Colors.black54,
-                        )
-                      : Container(),
-                  backgroundColor: brightness == Brightness.dark ? const Color(0xFF292929) : const Color(0xFFB4B4B4),
-                  radius: _tabController.index == 2 ? 20.0 : 0.0,
-                ),
-                const SizedBox(height: 10),
-                GestureDetector(
-                  child: CircleAvatar(
-                    child: Icon(getIcon(_tabController.index), color: Colors.white),
-                    backgroundColor: Theme.of(context).backgroundColor,
-                    radius: _tabController.index != 0 ? 25.0 : 0.0,
-                  ),
-                ),
-              ],
-            ),
-          ),
-        ],
+      floatingActionButton: CustomFloatingActionButton(index: _tabController.index, brightness: brightness),
+    );
+  }
+
+  Widget option(String text) {
+    return Tab(
+      height: 38,
+      child: Padding(
+        child: Text(
+          text,
+          style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w600),
+        ),
+        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 8),
       ),
+    );
+  }
+}
+
+class OptionsMenu extends StatelessWidget {
+  const OptionsMenu({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return PopupMenuButton(
+      icon: Icon(Icons.more_vert, color: Theme.of(context).iconTheme.color),
+      onSelected: print,
+      itemBuilder: (BuildContext context) {
+        return <PopupMenuEntry>[
+          const PopupMenuItem(
+            value: 1,
+            child: Text('New group'),
+          ),
+          const PopupMenuItem(
+            value: 2,
+            child: Text('New broadcast'),
+          ),
+          const PopupMenuItem(
+            value: 3,
+            child: Text('Linked devices'),
+          ),
+          const PopupMenuItem(
+            value: 4,
+            child: Text('Starred messages'),
+          ),
+          const PopupMenuItem(
+            value: 5,
+            child: Text('Settings'),
+          ),
+        ];
+      },
+    );
+  }
+}
+
+class CustomFloatingActionButton extends StatelessWidget {
+  const CustomFloatingActionButton({Key? key, required this.index, required this.brightness}) : super(key: key);
+
+  final int index;
+  final Brightness brightness;
+
+  @override
+  Widget build(BuildContext context) {
+    return Stack(
+      children: [
+        Positioned(
+          bottom: 0,
+          right: 0,
+          child: Column(
+            children: [
+              CircleAvatar(
+                child: index == 2
+                    ? Icon(
+                        Icons.edit,
+                        color: brightness == Brightness.dark ? Colors.white70 : Colors.black54,
+                      )
+                    : Container(),
+                backgroundColor: brightness == Brightness.dark ? const Color(0xFF292929) : const Color(0xFFB4B4B4),
+                radius: index == 2 ? 20.0 : 0.0,
+              ),
+              const SizedBox(height: 10),
+              GestureDetector(
+                child: CircleAvatar(
+                  child: Icon(getIcon(index), color: Colors.white),
+                  backgroundColor: Theme.of(context).backgroundColor,
+                  radius: index != 0 ? 25.0 : 0.0,
+                ),
+              ),
+            ],
+          ),
+        ),
+      ],
     );
   }
 
@@ -172,18 +227,5 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
     }
 
     return icon;
-  }
-
-  Widget option(String text) {
-    return Tab(
-      height: 38,
-      child: Padding(
-        child: Text(
-          text,
-          style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w600),
-        ),
-        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 8),
-      ),
-    );
   }
 }
